@@ -2,6 +2,96 @@
 #        ALL PYTHON PROGRAMS - COMPLETE LAB MANUAL
 #        14 Topics Covered with Multiple Programs Each
 # =============================================================================
+# String Demonstration Program
+# 1. Creating strings
+str1 = "Hello"
+str2 = 'World'
+str3 = """This is a
+multi-line string"""
+
+print("1. String Creation:")
+print(str1, str2)
+print(str3)
+
+# 2. String concatenation
+print("\n2. Concatenation:")
+print(str1 + " " + str2)
+
+# 3. String repetition
+print("\n3. Repetition:")
+print(str1 * 3)
+
+# 4. Indexing
+print("\n4. Indexing:")
+print("First character:", str1[0])
+print("Last character:", str1[-1])
+
+# 5. Slicing
+print("\n5. Slicing:")
+print("str1[1:4]:", str1[1:4])
+print("str1[:3]:", str1[:3])
+print("str1[::2]:", str1[::2])
+
+# 6. Length of string
+print("\n6. Length:")
+print(len(str1))
+
+# 7. String methods
+text = "  python programming  "
+
+print("\n7. String Methods:")
+print("Upper:", text.upper())
+print("Lower:", text.lower())
+print("Title:", text.title())
+print("Strip:", text.strip())
+print("Replace:", text.replace("python", "java"))
+print("Split:", text.split())
+
+# 8. Checking functions
+print("\n8. Checking Functions:")
+print("Is alpha:", str1.isalpha())
+print("Is digit:", "123".isdigit())
+print("Is alnum:", "abc123".isalnum())
+
+# 9. Searching
+print("\n9. Searching:")
+print("Find 'pro':", text.find("pro"))
+print("Count 'm':", text.count("m"))
+
+# 10. String formatting
+name = "Alice"
+age = 25
+
+print("\n10. Formatting:")
+print("My name is {} and I am {} years old".format(name, age))
+print(f"My name is {name} and I am {age} years old")
+
+# 11. Escape characters
+print("\n11. Escape Characters:")
+print("Hello\nWorld")
+print("Hello\tWorld")
+
+# 12. Membership operators
+print("\n12. Membership:")
+print("py" in text)
+print("java" not in text)
+
+# 13. Looping through string
+print("\n13. Looping:")
+for char in str1:
+    print(char, end=" ")
+
+# 14. Reverse string
+print("\n\n14. Reverse:")
+print(str1[::-1])
+
+# 15. Palindrome check
+print("\n15. Palindrome Check:")
+word = "madam"
+if word == word[::-1]:
+    print(word, "is a palindrome")
+else:
+    print(word, "is not a palindrome")
 
 # ===========================================================================
 # TOPIC 1: Control Structures of Python
