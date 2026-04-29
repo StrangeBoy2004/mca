@@ -5,6 +5,7 @@ import requests
 import logging
 import uuid
 import json
+import os
 
 # ============ CONFIG ============
 API_KEY = os.getenv("API_KEY")
