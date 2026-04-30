@@ -6,6 +6,9 @@ import logging
 import uuid
 import json
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ============ CONFIG ============
 API_KEY = os.getenv("API_KEY")
@@ -18,7 +21,7 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 ETH_THRESHOLD = 0.000034
 ETC_THRESHOLD = 0.0001
-TARGET_PNL_PERCENT = 0.15
+TARGET_PNL_PERCENT = 0.25
 CAPITAL_PERCENT = 0.10
 LEVERAGE = 50
 
@@ -268,15 +271,28 @@ class FundingArbitrageBot:
                     self.place_trade()
 
                 positions = self.get_active_positions()
-                if positions:
+
+                if positions and len(positions) == 2:
                     pnl = sum(float(p.get("unrealized_pnl", 0)) for p in positions)
-                    balance = self.get_balance()
+
+                    total_margin = 0
+                    for p in positions:
+                        size = float(p.get("size", 0))
+                        entry = float(p.get("entry_price", 0))
+                        cv = float(p.get("contract_value", 1))
+
+                        notional = abs(size) * entry * cv
+                        margin = notional / LEVERAGE
+
+                        total_margin += margin
+
+                    target = total_margin * TARGET_PNL_PERCENT
 
                     if time.time() - self.last_pnl_alert > 600:
-                        send_telegram_safe(f"📈 PnL: {pnl}")
+                        send_telegram_safe(f"📈 PnL: {pnl} | Target: {target}")
                         self.last_pnl_alert = time.time()
 
-                    if pnl >= balance * TARGET_PNL_PERCENT:
+                    if pnl >= target:
                         send_telegram(f"🎯 TARGET HIT\nPnL: {pnl}")
                         self.close_all()
 
@@ -289,4 +305,9 @@ class FundingArbitrageBot:
 
 # ============ RUN ============
 if __name__ == "__main__":
-    FundingArbitrageBot().run()
+    while True:
+        try:
+            FundingArbitrageBot().run()
+        except Exception as e:
+            print("CRASH:", e)
+            time.sleep(5)
